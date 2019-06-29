@@ -9,10 +9,6 @@ import java.util.Collections;
 
 interface Command {
 	enum COMMAND_TYPE {ADD, ALL, DELETE, EXIT, HELP, SHOW};
-	static void printHeader() {
-		System.out.printf("%-4s | %-10s | %-12s | %-16s\n", "ID", "DATE", "TITLE", "TEXT");
-		System.out.printf("-----+----------+--------------+-----------------\n");
-	}
 	void execute(DBConnection db, Scanner in) throws Exception;
 	public COMMAND_TYPE getType();
 }
@@ -25,14 +21,14 @@ class All implements Command {
 	
 	public void execute(DBConnection db, Scanner in) {
 		ResultSet rs = db.getQueryResult("select * from " + Client.dbname);
-		Command.printHeader();
+		Terminal.printHeader();
 		try {
 			while (rs.next()) {
 		        int id = rs.getInt("ID");
 		        String date = rs.getString("DATE");
 		    	String title = rs.getString("TITLE");
 		        String text = rs.getString("TEXT");
-		        System.out.printf("%-4d | %-10s | %-12s | %-16s\n", id, date, title, text);
+		        Terminal.printTableRow(id, date, title, text);
 			}
 		} catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
@@ -58,11 +54,10 @@ class Show implements Command {
 		ResultSet rs = db.getQueryResult("select * from " + Client.dbname + " where id = " + id);
 		try {
 			if (rs.next()) {
-				Command.printHeader();
 				String date = rs.getString("DATE");
 		    	String title = rs.getString("TITLE");
 		        String text = rs.getString("TEXT");
-		        System.out.printf("%-4d | %-10s | %-12s | %-16s\n", id, date, title, text);
+		        Terminal.printNote(id, date, title, text);
 			}
 		} catch (SQLException sqlEx) {
 			sqlEx.printStackTrace();

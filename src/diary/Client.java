@@ -2,6 +2,7 @@ package diary;
 
 import java.util.Scanner;
 import diary.Command.COMMAND_TYPE;
+import diary.CommandException.ID;
 
 public class Client {
 	static String dbname = "diary";
@@ -25,7 +26,7 @@ public class Client {
 		} catch (CommandException ex) {
 			throw ex;
 		}
-		throw new CommandException(CommandException.ID.UNKNOWN_COMMAND);
+		throw new CommandException(ID.UNKNOWN_COMMAND);
 	}
 	
 	private static void processCommand() {
