@@ -10,9 +10,9 @@ public class DBConnection {
 	private static final String url = "jdbc:mysql://localhost:3306/" + Client.dbname;
     private static final String user = "root";
     private static final String password = "436813";
-    private static Connection con;
-    private static Statement stmt;
-    public static ResultSet rs;
+    private static Connection con = null;
+    private static Statement stmt = null;
+    private static ResultSet rs = null;
     
     DBConnection() {
     	try {
@@ -23,10 +23,34 @@ public class DBConnection {
         }
     }
     
+    public void insertNote(String query) {
+    	try {
+    		stmt.executeUpdate(query);
+    	} catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+    }
+    
+    public void execute(String query) {
+    	try {
+    		stmt.execute(query);
+    	} catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+    }
+    
+    public void deleteNote(String query) {
+    	try {
+    		stmt.execute(query);
+    	} catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+    }
+    
     public void closeConnection() {
-    	try { con.close(); } catch (SQLException se) {}
-        try { stmt.close(); } catch (SQLException se) {}
-        try { rs.close(); } catch (SQLException se) {}
+    	try { if (con != null) con.close(); } catch (SQLException se) {}
+        try { if (stmt != null) stmt.close(); } catch (SQLException se) {}
+        try { if (rs != null) rs.close(); } catch (SQLException se) {}
     }
     
 	public ResultSet getQueryResult (String query) {

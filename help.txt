@@ -1,0 +1,6 @@
+add - add a note.
+all - show all notes.
+show [id] - show specific note by id.
+delete [id [id]] - delete specific note by id.
+help - get the list of commands.
+exit - leave the diary.
