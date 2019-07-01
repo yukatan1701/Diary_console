@@ -7,19 +7,26 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBConnection {
-	private static final String url = "jdbc:mysql://localhost:3306/" + Client.dbname;
-    private static final String user = "root";
-    private static final String password = "436813";
+    private static final String url = "jdbc:derby://localhost:1527/"
+    		+ Client.dbname + ";";
     private static Connection con = null;
     private static Statement stmt = null;
     private static ResultSet rs = null;
     
     DBConnection() {
     	try {
-    		con = DriverManager.getConnection(url, user, password);
+    		Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
+    		con = DriverManager.getConnection(url + "create=true");
             stmt = con.createStatement();
-    	} catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+            stmt.execute("create table diary (id int not null primary key "
+    				+ "generated always as identity, date DATE, "
+    				+ "title VARCHAR(128), text VARCHAR(4096))");
+    	} catch (SQLException ex) {
+    		if (!DerbyErrors.tableAlreadyExists(ex)) {
+    			ex.printStackTrace();
+    		}
+    	} catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
     
@@ -35,15 +42,17 @@ public class DBConnection {
     	try {
     		stmt.execute(query);
     	} catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
-        }
+    		if (!DerbyErrors.tableAlreadyExists(sqlEx)) {
+    			sqlEx.printStackTrace();
+    		}
+    	}
     }
     
     public void deleteNote(String query) {
     	try {
     		stmt.execute(query);
     	} catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+    		sqlEx.printStackTrace();
         }
     }
     
@@ -51,6 +60,14 @@ public class DBConnection {
     	try { if (con != null) con.close(); } catch (SQLException se) {}
         try { if (stmt != null) stmt.close(); } catch (SQLException se) {}
         try { if (rs != null) rs.close(); } catch (SQLException se) {}
+    }
+    
+    public static void shutdown() {
+    	try {
+    		DriverManager.getConnection("jdbc:derby:;shutdown=true"); 
+    	} catch (Exception ex) {
+    		ex.printStackTrace();
+    	}
     }
     
 	public ResultSet getQueryResult (String query) {

@@ -23,6 +23,8 @@ public class Client {
 				return new Exit(words);
 			if (name.equals("help"))
 				return new Help(words);
+			if (name.equals("create"))
+				return new Create(words);
 		} catch (CommandException ex) {
 			throw ex;
 		}
@@ -51,6 +53,7 @@ public class Client {
 			dbconn.closeConnection();
 			System.out.print("\n");
 		}
+		//DBConnection.shutdown();
 		in.close();
 	}
 	

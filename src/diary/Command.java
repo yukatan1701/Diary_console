@@ -20,7 +20,7 @@ class All implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		ResultSet rs = db.getQueryResult("select * from " + Client.dbname);
+		ResultSet rs = db.getQueryResult("SELECT * FROM " + Client.dbname);
 		Terminal.printHeader();
 		try {
 			while (rs.next()) {
@@ -33,6 +33,22 @@ class All implements Command {
 		} catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         }
+	}
+	public COMMAND_TYPE getType() {
+		return COMMAND_TYPE.ALL;
+	}
+}
+
+// test class
+class Create implements Command {
+	Create (String[] words) throws CommandException {
+		
+	}
+	
+	public void execute(DBConnection db, Scanner in) {
+		db.execute("create table diary (id int not null primary key "
+				+ "generated always as identity, date DATE, "
+				+ "title VARCHAR(128), text VARCHAR(4096))");
 	}
 	public COMMAND_TYPE getType() {
 		return COMMAND_TYPE.ALL;
@@ -89,9 +105,6 @@ class Delete implements Command {
 		for (int from = begin; from <= to; from++) {
 			db.deleteNote(base.concat(String.valueOf(from)));
 		}
-		//String query = "alter table " + Client.dbname + "AUTO_INCREMENT (" + 
-		//		"select max(id) from " + Client.dbname + ")"; 
-		//db.execute(query);
 	}
 	
 	public COMMAND_TYPE getType() {
@@ -110,8 +123,8 @@ class Add implements Command {
 		String title = in.nextLine();
 		System.out.println("Text:");
 		String text = in.nextLine();
-		String query = String.format("insert into %s (id, date, title, text) values "
-				+ "(NULL, CURRENT_TIMESTAMP, \'%s\',\'%s\')", Client.dbname, title, text);
+		String query = String.format("insert into %s values (default, "
+				+ "CURRENT_DATE, \'%s\',\'%s\')", Client.dbname, title, text);
 		db.insertNote(query);
 	}
 	
