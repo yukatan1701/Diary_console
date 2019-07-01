@@ -33,7 +33,8 @@ final class Terminal {
 			short_title = title.substring(0, title_len - 3).concat("...");
 		if (text.length() > text_len)
 			short_text = text.substring(0, text_len - 3).concat("...");
-		System.out.printf(getFormattedHeader(), id, date, short_title, short_text);
+		System.out.printf(getFormattedHeader(), id, date, short_title,
+				short_text);
 	}
 	
 	static void printNote(int id, String date, String title, String text) {

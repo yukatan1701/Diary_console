@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Tue Jul 02 00:29:21 OMST 2019:
+ Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): экземпляр a816c00e-016b-aecc-6c87-0000060b9518
+в каталоге базы данных /home/yukatan/eclipse-workspace/Diary/diary sun.misc.Launcher$AppClassLoader@75b84c92 
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_212-8u212-b03-2~deb9u1-b03
+user.dir=/home/yukatan/eclipse-workspace/Diary
+os.name=Linux
+os.arch=amd64
+os.version=4.9.0-9-amd64
+derby.system.home=null
+Запущен загрузчик классов базы данных - derby.database.classpath=''
+----------------------------------------------------------------
+Tue Jul 02 00:29:22 OMST 2019:
+Завершается работа экземпляра a816c00e-016b-aecc-6c87-0000060b9518

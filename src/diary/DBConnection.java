@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBConnection {
-    private static final String url = "jdbc:derby://localhost:1527/"
-    		+ Client.dbname + ";";
+   // private static final String url = "jdbc:derby://localhost:1527/"
+   // 		+ Client.dbname + ";";
+    private static final String url = "jdbc:derby:" + Client.dbname + ";";
     private static Connection con = null;
     private static Statement stmt = null;
     private static ResultSet rs = null;
@@ -18,9 +19,7 @@ public class DBConnection {
     		Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
     		con = DriverManager.getConnection(url + "create=true");
             stmt = con.createStatement();
-            stmt.execute("create table diary (id int not null primary key "
-    				+ "generated always as identity, date DATE, "
-    				+ "title VARCHAR(128), text VARCHAR(4096))");
+            stmt.execute(Query.createTable());
     	} catch (SQLException ex) {
     		if (!DerbyErrors.tableAlreadyExists(ex)) {
     			ex.printStackTrace();
@@ -64,9 +63,13 @@ public class DBConnection {
     
     public static void shutdown() {
     	try {
-    		DriverManager.getConnection("jdbc:derby:;shutdown=true"); 
-    	} catch (Exception ex) {
-    		ex.printStackTrace();
+    		DriverManager.getConnection("jdbc:derby:" + Client.dbname +
+    				";shutdown=true"); 
+    	} catch (SQLException ex) {
+    		if (!DerbyErrors.shutdownMessage(ex)) {
+    			System.out.println(ex.getErrorCode());
+    			ex.printStackTrace();
+    		}
     	}
     }
     

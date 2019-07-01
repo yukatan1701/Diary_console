@@ -20,9 +20,9 @@ class All implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		ResultSet rs = db.getQueryResult("SELECT * FROM " + Client.dbname);
-		Terminal.printHeader();
 		try {
+			ResultSet rs = db.getQueryResult(Query.selectAll());
+			Terminal.printHeader();
 			while (rs.next()) {
 		        int id = rs.getInt("ID");
 		        String date = rs.getString("DATE");
@@ -30,8 +30,8 @@ class All implements Command {
 		        String text = rs.getString("TEXT");
 		        Terminal.printTableRow(id, date, title, text);
 			}
-		} catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+		} catch (Exception ex) {
+            ex.printStackTrace();
         }
 	}
 	public COMMAND_TYPE getType() {
@@ -46,9 +46,11 @@ class Create implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		db.execute("create table diary (id int not null primary key "
-				+ "generated always as identity, date DATE, "
-				+ "title VARCHAR(128), text VARCHAR(4096))");
+		try {
+			db.execute(Query.createTable());
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	public COMMAND_TYPE getType() {
 		return COMMAND_TYPE.ALL;
@@ -67,16 +69,16 @@ class Show implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		ResultSet rs = db.getQueryResult("select * from " + Client.dbname + " where id = " + id);
 		try {
+			ResultSet rs = db.getQueryResult(Query.selectById(id));
 			if (rs.next()) {
 				String date = rs.getString("DATE");
 		    	String title = rs.getString("TITLE");
 		        String text = rs.getString("TEXT");
 		        Terminal.printNote(id, date, title, text);
 			}
-		} catch (SQLException sqlEx) {
-			sqlEx.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
@@ -98,7 +100,13 @@ class Delete implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		String base = "delete from " + Client.dbname + " where id = ";
+		String base;
+		try {
+			base = Query.deleteById();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return;
+		}
 		int to = begin;
 		if (end != -1)
 			to = end;
@@ -123,9 +131,12 @@ class Add implements Command {
 		String title = in.nextLine();
 		System.out.println("Text:");
 		String text = in.nextLine();
-		String query = String.format("insert into %s values (default, "
-				+ "CURRENT_DATE, \'%s\',\'%s\')", Client.dbname, title, text);
-		db.insertNote(query);
+		try {
+			String query = String.format(Query.insert(title, text));
+			db.insertNote(query);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	public COMMAND_TYPE getType() {

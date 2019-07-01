@@ -8,4 +8,10 @@ public final class DerbyErrors {
 			return true;
 		return false;
 	}
+	
+	public static boolean shutdownMessage(SQLException ex) {
+		if (ex.getErrorCode() == 45000 || ex.getErrorCode() == 40000)
+			return true;
+		return false;
+	}
 }

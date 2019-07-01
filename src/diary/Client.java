@@ -7,27 +7,24 @@ import diary.CommandException.ID;
 public class Client {
 	static String dbname = "diary";
 	
-	private static Command getCommandByName(String line) throws CommandException {
+	private static Command getCommandByName(String line) throws
+		CommandException {
 		String[] words = line.split(" ");
 		String name = words[0];
-		try {
-			if (name.equals("all"))
-				return new All(words);
-			if (name.equals("show"))
-				return new Show(words);
-			if (name.equals("add"))
-				return new Add(words);
-			if (name.equals("delete"))
-				return new Delete(words);
-			if (name.equals("exit"))
-				return new Exit(words);
-			if (name.equals("help"))
-				return new Help(words);
-			if (name.equals("create"))
-				return new Create(words);
-		} catch (CommandException ex) {
-			throw ex;
-		}
+		if (name.equals("all"))
+			return new All(words);
+		if (name.equals("show"))
+			return new Show(words);
+		if (name.equals("add"))
+			return new Add(words);
+		if (name.equals("delete"))
+			return new Delete(words);
+		if (name.equals("exit"))
+			return new Exit(words);
+		if (name.equals("help"))
+			return new Help(words);
+		if (name.equals("create"))
+			return new Create(words);
 		throw new CommandException(ID.UNKNOWN_COMMAND);
 	}
 	
@@ -49,11 +46,12 @@ public class Client {
 				command.execute(dbconn, in);
 			} catch (Exception ex) {
 				ex.printStackTrace();
+			} finally {
+				dbconn.closeConnection();
+				DBConnection.shutdown();
 			}
-			dbconn.closeConnection();
 			System.out.print("\n");
 		}
-		//DBConnection.shutdown();
 		in.close();
 	}
 	
