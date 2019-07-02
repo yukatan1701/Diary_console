@@ -16,6 +16,8 @@ public class CommandException extends Exception {
 			System.out.println("Too many arguments for this command.");
 		} else if (id == ID.FEW_ARGS) {
 			System.out.println("Too few arguments for this command.");
+		} else if (id == ID.INVALID_ARGUMENT) {
+			System.out.println("Invalid argument.");
 		} else {
 			System.out.println("Unknown command error.");
 		}

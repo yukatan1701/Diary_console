@@ -10,39 +10,62 @@ public final class Query {
 				throws IOException {
 		FileReader fr = new FileReader(dir + filename);
 		Scanner in = new Scanner(fr);
-		String query = String.format(in.nextLine(), args);
+		String text = "";
+		while (in.hasNextLine()) {
+			text += in.nextLine() + " ";
+		}
+		String query = String.format(text, args);
 		in.close();
 		fr.close();
 		return query;
 	}
 	
-	public static String createTable() throws IOException {
-		return getQuery("create_table", Client.dbname);
+	public static String createTable(String dbname) throws IOException {
+		return getQuery("create_table", dbname);
 	}
 	
-	public static String selectAll() throws IOException {
-		return getQuery("select_all", Client.dbname);
+	public static String selectAll(String dbname) throws IOException {
+		return getQuery("select_all", dbname);
 	}
 	
-	public static String selectById(int id) throws IOException {
-		return getQuery("select_id", Client.dbname, id);
+	public static String selectById(String dbname, int id) throws IOException {
+		return getQuery("select_id", dbname, id);
 	}
 	
-	public static String deleteIndividually(int[] rows) throws IOException {
+	public static String deleteIndividually(String dbname, int[] rows)
+			throws IOException {
 		String suffix = "(" + String.valueOf(rows[0]);
 		for (int i = 1; i < rows.length; i++)
 			suffix += ", " + String.valueOf(rows[i]);
 		suffix += ")";
-		return getQuery("delete_individually", Client.dbname, suffix);
+		return getQuery("delete_individually", dbname, suffix);
 	}
 	
-	public static String deleteBetween(int[] rows) throws IOException {
-		return getQuery("delete_range", Client.dbname, rows[0], rows[1]);
+	public static String deleteBetween(String dbname, int[] rows)
+			throws IOException {
+		return getQuery("delete_range", dbname, rows[0], rows[1]);
 	}
 	
-	public static String insert(String title, String text) throws IOException {
-		title = title.replace("\'", "\'\'");
-		text = text.replace("\'", "\'\'");
-		return getQuery("insert_note", Client.dbname, title, text);
+	private static void clear(String... lines) {
+		for (String expr: lines)
+			expr = expr.replace("\'", "\'\'");
+	}
+	
+	public static String insert(String dbname, String title, String text)
+			throws IOException {
+		clear(title, text);
+		return getQuery("insert_note", dbname, title, text);
+	}
+	
+	public static String editAll(String dbname, int id, String title, 
+			String text) throws IOException {
+		clear(title, text);
+		return getQuery("edit_all", dbname, title, text, id);
+	}
+	
+	public static String editField(String dbname, int id, String field, 
+			String text) throws IOException {
+		clear(text);
+		return getQuery("edit_field", dbname, field, text, id);
 	}
 }
