@@ -1,7 +1,6 @@
 package diary;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 import java.io.*;
 import java.util.Vector;
@@ -88,30 +87,56 @@ class Show implements Command {
 }
 
 class Delete implements Command {
-	int begin = -1;
-	int end = -1;
+	int[] rows;
+	private enum DELETE_TYPE { BETWEEN, INDIVIDUALLY };
+	DELETE_TYPE type;
+	
 	Delete(String[] words) throws CommandException {
 		if (words.length < 2)
 			throw new CommandException(CommandException.ID.FEW_ARGS);
-		if (words.length >= 2)
-			begin = Integer.parseInt(words[1]);
-		if (words.length == 3)
-			end = Integer.parseInt(words[2]);
+		if (words.length == 2)
+			rows = getRowsByExpression(words[1]);
+		if (words.length > 2)
+			throw new CommandException(CommandException.ID.MANY_ARGS);
+	}
+	
+	private int[] getRowsByExpression(String expr) throws CommandException {
+		boolean has_dash = expr.contains("-");
+		boolean has_comma = expr.contains(",");
+		if (has_dash && has_comma)
+			throw new CommandException(CommandException.ID.INVALID_ARGUMENT);
+		int[] rows;
+		if (has_dash) {
+			String[] values = expr.split("-");
+			if (values.length != 2)
+				throw new CommandException(CommandException.ID.INVALID_ARGUMENT);
+			type = DELETE_TYPE.BETWEEN;
+			rows = new int[2];
+			rows[0] = Integer.valueOf(values[0]);
+			rows[1] = Integer.valueOf(values[1]);
+		} else {
+			String[] values = expr.split(",");
+			type = DELETE_TYPE.INDIVIDUALLY;
+			if (values.length < 1)
+				throw new CommandException(CommandException.ID.INVALID_ARGUMENT);
+			rows = new int[values.length];
+			for (int i = 0; i < values.length; i++)
+				rows[i] = Integer.valueOf(values[i]);
+		}
+		return rows;
 	}
 	
 	public void execute(DBConnection db, Scanner in) {
-		String base;
 		try {
-			base = Query.deleteById();
-		} catch (IOException ex) {
+			String query;
+			if (type == DELETE_TYPE.BETWEEN) {
+				query = Query.deleteBetween(rows);
+			} else {
+				query = Query.deleteIndividually(rows);
+			}
+			db.deleteNote(query);
+		} catch (Exception ex) {
 			ex.printStackTrace();
-			return;
-		}
-		int to = begin;
-		if (end != -1)
-			to = end;
-		for (int from = begin; from <= to; from++) {
-			db.deleteNote(base.concat(String.valueOf(from)));
 		}
 	}
 	

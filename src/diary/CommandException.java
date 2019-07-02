@@ -3,7 +3,7 @@ package diary;
 public class CommandException extends Exception {
 	private static final long serialVersionUID = 5899592237697002338L;
 	private ID id;
-	static enum ID { UNKNOWN_COMMAND, MANY_ARGS, FEW_ARGS };
+	static enum ID { UNKNOWN_COMMAND, MANY_ARGS, FEW_ARGS, INVALID_ARGUMENT };
 	
 	CommandException(ID ex_id) {
 		id = ex_id;

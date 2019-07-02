@@ -32,17 +32,17 @@ public class DBConnection {
     public void insertNote(String query) {
     	try {
     		stmt.executeUpdate(query);
-    	} catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+    	} catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
     
     public void execute(String query) {
     	try {
     		stmt.execute(query);
-    	} catch (SQLException sqlEx) {
-    		if (!DerbyErrors.tableAlreadyExists(sqlEx)) {
-    			sqlEx.printStackTrace();
+    	} catch (SQLException ex) {
+    		if (!DerbyErrors.tableAlreadyExists(ex)) {
+    			ex.printStackTrace();
     		}
     	}
     }
@@ -50,8 +50,8 @@ public class DBConnection {
     public void deleteNote(String query) {
     	try {
     		stmt.execute(query);
-    	} catch (SQLException sqlEx) {
-    		sqlEx.printStackTrace();
+    	} catch (SQLException ex) {
+    		ex.printStackTrace();
         }
     }
     
@@ -73,13 +73,13 @@ public class DBConnection {
     	}
     }
     
-	public ResultSet getQueryResult (String query) {
+	public ResultSet getQueryResult(String query) {
+		rs = null;
         try {
             rs = stmt.executeQuery(query);
-            return rs;
-        } catch (SQLException sqlEx) {
-            sqlEx.printStackTrace();
+        } catch (SQLException ex) {
+           ex.printStackTrace();
         }
-        return null;
+        return rs;
 	}
 }
