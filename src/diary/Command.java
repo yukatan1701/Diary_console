@@ -213,7 +213,9 @@ class Help implements Command {
 	}
 	
 	public void execute(DBConnection db, Scanner in) throws Exception {
-		FileReader file = new FileReader("resources/help.txt");
+		//FileReader file = new FileReader("/help.txt");
+		ClassLoader cldr = this.getClass().getClassLoader();
+		InputStream file = cldr.getResourceAsStream("help.txt");
 		Scanner scan = new Scanner(file);
 		Vector<String> commands = new Vector<String>();
 		while (scan.hasNextLine()) {

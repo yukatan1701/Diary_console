@@ -4,19 +4,21 @@ import java.io.*;
 import java.util.Scanner;
 
 public final class Query {
-	private static String dir = "resources/query/";
+	private static String dir = "query/";
 	
 	private static String getQuery(String filename, Object... args)
 				throws IOException {
-		FileReader fr = new FileReader(dir + filename);
-		Scanner in = new Scanner(fr);
+		// FileReader file = new FileReader(dir + filename);
+		ClassLoader cldr = Query.class.getClassLoader();
+		InputStream file = cldr.getResourceAsStream(dir + filename);
+		Scanner in = new Scanner(file);
 		String text = "";
 		while (in.hasNextLine()) {
 			text += in.nextLine() + " ";
 		}
 		String query = String.format(text, args);
 		in.close();
-		fr.close();
+		file.close();
 		return query;
 	}
 	

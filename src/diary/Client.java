@@ -44,8 +44,8 @@ public class Client {
 	
 	public static void main(String[] args) {
 		String dbname = "diary";
-		if (args.length > 1)
-			dbname = args[1];
+		if (args.length > 0)
+			dbname = args[0];
 		checkDatabase(dbname);
 		System.out.println("Enter \'help\' to see the list of commands.");
 		processCommand(dbname);
