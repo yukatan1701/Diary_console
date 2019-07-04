@@ -48,26 +48,23 @@ public final class Query {
 		return getQuery("delete_range", dbname, rows[0], rows[1]);
 	}
 	
-	private static void clear(String... lines) {
-		for (String expr: lines)
-			expr = expr.replace("\'", "\'\'");
+	private static String clear(String line) {
+		String answer = line.replace("\'", "\'\'");
+		return answer;
 	}
 	
 	public static String insert(String dbname, String title, String text)
 			throws IOException {
-		clear(title, text);
-		return getQuery("insert_note", dbname, title, text);
+		return getQuery("insert_note", dbname, clear(title), clear(text));
 	}
 	
 	public static String editAll(String dbname, int id, String title, 
 			String text) throws IOException {
-		clear(title, text);
-		return getQuery("edit_all", dbname, title, text, id);
+		return getQuery("edit_all", dbname, clear(title), clear(text), id);
 	}
 	
 	public static String editField(String dbname, int id, String field, 
 			String text) throws IOException {
-		clear(text);
-		return getQuery("edit_field", dbname, field, text, id);
+		return getQuery("edit_field", dbname, field, clear(text), id);
 	}
 }
