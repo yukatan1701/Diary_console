@@ -1,8 +1,8 @@
 # Diary (console version)
 This is a console version of the application **Diary**. It has reduced functionality and is designed to test database operations.<br>
 **IDE**: Eclipse<br>
-**Database**: Derby<br>
-**Dependencies:** JDK
+**Database**: Derby (embedded)<br>
+**Requirements:** JDK
 ## Installing and running
 If you want to build a project from source, put project folder in the workspace directory and open it in Eclipse IDE: **File -> Import... -> Existing Projects into Workspace**. Then you can run it or build .jar file using **File -> Export... -> Runnable JAR file**.<br><br>
 If you do not want to build the project manually, just take the ready **diary.jar** archive.<br><br>
@@ -28,8 +28,8 @@ A diary entry contains four fields: a unique identifier (ID), date, title and te
 * `edit [id [title | text]]` - edit title or text of specific note by id.
 
 Use `help` to see the command list in your terminal.<br>
-### Examples
-1. Adding a note:
+## Examples
+#### Adding a note:
 ```
 -> add
 ```
@@ -40,7 +40,7 @@ Hello Turkey!
 Text:
 Today I arrived in Cappadocia.
 ```
-2. View all notes:
+#### View all notes:
 ```
 -> all
 ```
@@ -52,7 +52,7 @@ ID   | DATE       | TITLE                | TEXT
 2    | 2019-07-05 | Istanbul Tour        | The caves of Cappadocia wer...
 3    | 2019-07-07 | Holiday in Kemer     | I will spend a few days on ...
 ```
-3. View a specific note:
+#### View a specific note:
 ```
 -> show 3
 ```
@@ -66,7 +66,7 @@ ere on a tour, for example, to the church of St. Nicholas. I'll think a little m
 ore. I really want to climb Mount Tahtali. It offers a wonderful view from the h
 otel.
 ```
-4. Deleting entries (only by ID):
+#### Deleting entries (only by ID):
 * in the range from N to M:
 ```
 -> delete 4-7
@@ -79,7 +79,7 @@ otel.
 ```
 -> delete 2
 ```
-5. Editing a note (only by ID):
+#### Editing a note (only by ID):
 * fully:
 ```
 -> edit 5
@@ -92,8 +92,8 @@ otel.
 ```
 -> edit 4 text
 ```
-After that you will receive an invitation to enter new data.<br>
-6. Leave the diary:
+After that you will receive an invitation to enter new data.
+#### Exit from the diary:
 ```
 -> exit
 ```
