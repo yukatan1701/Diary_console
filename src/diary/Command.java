@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 import java.io.*;
 import java.util.Vector;
+
+import database.DBConnection;
+import database.Query;
+
 import java.util.Collections;
 import diary.CommandException.ID;
 

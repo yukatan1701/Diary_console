@@ -1,6 +1,7 @@
 package diary;
 
 import java.util.Scanner;
+import database.DBConnection;
 import diary.Command.COMMAND_TYPE;
 import java.io.File;
 

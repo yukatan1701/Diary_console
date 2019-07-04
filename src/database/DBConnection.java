@@ -1,4 +1,4 @@
-package diary;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +16,7 @@ public class DBConnection {
     private static Statement stmt = null;
     private static ResultSet rs = null;
     
-    DBConnection(String dbname) {
+    public DBConnection(String dbname) {
     	this.dbname = dbname;
     	url = "jdbc:derby:" + dbname + ";";
     	try {

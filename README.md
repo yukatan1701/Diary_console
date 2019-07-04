@@ -6,7 +6,7 @@ This is a console version of the application **Diary**. It has reduced functiona
 ## Project structure
 * **diary** - database example directory;
 * **resources** - help file and SQL queries directory;
-* **src/diary** - sources directory;
+* **src** - sources directory;
 * **diary.jar** - ready program archive.
 ## Installing and running
 If you want to build a project from source, put project folder in the workspace directory and open it in Eclipse IDE: **File -> Import... -> Existing Projects into Workspace**. Then you can run it or build .jar file using **File -> Export... -> Runnable JAR file**.<br><br>

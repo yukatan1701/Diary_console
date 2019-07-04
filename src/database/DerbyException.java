@@ -1,4 +1,4 @@
-package diary;
+package database;
 
 import java.sql.SQLException;
 
