@@ -2,8 +2,19 @@ package diary;
 
 import java.util.Scanner;
 import diary.Command.COMMAND_TYPE;
+import java.io.File;
 
 public class Client {
+	
+	private static void checkDatabase(String dbname) {
+		File dir = new File(dbname);
+		if (!dir.exists()) {
+			System.out.println("Creating diary... Please wait.");
+			DBConnection dbconn = new DBConnection(dbname);
+			dbconn.closeConnection();
+		}
+		System.out.println("Diary is opened.");
+	}
 	
 	private static void processCommand(String dbname) {
 		Scanner in = new Scanner(System.in);
@@ -35,6 +46,7 @@ public class Client {
 		String dbname = "diary";
 		if (args.length > 1)
 			dbname = args[1];
+		checkDatabase(dbname);
 		System.out.println("Enter \'help\' to see the list of commands.");
 		processCommand(dbname);
 		System.out.println("Bye!");

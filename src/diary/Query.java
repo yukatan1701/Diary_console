@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public final class Query {
-	private static String dir = "query/";
+	private static String dir = "resources/query/";
 	
 	private static String getQuery(String filename, Object... args)
 				throws IOException {

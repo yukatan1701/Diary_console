@@ -1,7 +1,7 @@
 package diary;
 
 final class Terminal {
-	private static int id_len = 4, date_len = 10, title_len = 12, text_len = 20;
+	private static int id_len = 4, date_len = 10, title_len = 20, text_len = 30;
 	
 	private static String getFormattedHeader() {
 		String p = "%-", s = " | ";
