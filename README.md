@@ -3,6 +3,11 @@ This is a console version of the application **Diary**. It has reduced functiona
 **IDE**: Eclipse<br>
 **Database**: Derby (embedded)<br>
 **Requirements:** JDK
+## Project structure
+* **diary** - database example directory;
+* **resources** - help file and SQL queries directory;
+* **src/diary** - sources directory;
+* **diary.jar** - ready program archive.
 ## Installing and running
 If you want to build a project from source, put project folder in the workspace directory and open it in Eclipse IDE: **File -> Import... -> Existing Projects into Workspace**. Then you can run it or build .jar file using **File -> Export... -> Runnable JAR file**.<br><br>
 If you do not want to build the project manually, just take the ready **diary.jar** archive.<br><br>
@@ -66,7 +71,7 @@ ere on a tour, for example, to the church of St. Nicholas. I'll think a little m
 ore. I really want to climb Mount Tahtali. It offers a wonderful view from the h
 otel.
 ```
-#### Deleting entries (only by ID):
+#### Deleting notes (only by ID):
 * in the range from N to M:
 ```
 -> delete 4-7
