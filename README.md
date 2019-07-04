@@ -16,7 +16,7 @@ java -jar diary.jar summer_diary
 ```
 ## Using
 A diary entry contains four fields: a unique identifier (ID), date, title and text. ID and date are set automatically when adding an entry and are not editable by the user. The user can add only the title (128 characters) and text (32672 characters).<br>
-##### Available commands
+#### Available commands
 * `add` - add a note.
 * `all` - show all notes.
 * `show [id]` - show specific note by id.
@@ -28,7 +28,7 @@ A diary entry contains four fields: a unique identifier (ID), date, title and te
 * `edit [id [title | text]]` - edit title or text of specific note by id.
 
 Use `help` to see the command list in your terminal.<br>
-##### Examples
+#### Examples
 1. Adding a note:
 ```
 -> add
